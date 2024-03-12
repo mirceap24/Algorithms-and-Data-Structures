@@ -22,7 +22,7 @@ def mergesort(nums):
     
     def sort(left, right):
         """
-        Merge the range in nums defined by [left, right)
+        Sort the range in nums defined by [left, right)
         """
         if right - left <= 1: 
             return 
