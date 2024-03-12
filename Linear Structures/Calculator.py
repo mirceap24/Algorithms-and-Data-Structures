@@ -31,16 +31,28 @@ OPS = {
     '-': lambda a, b: a - b
 }
 
+class InvalidExpression(ValueError):
+    pass 
+
+
 def calculate(expr):
     s = []
     for ch in expr: 
         if ch.isdigit():
-            s.append(int(ch)) # TODO support multiple digits
+            if len(s) == 0 or not isinstance(s[-1], int):
+                s.append(int(ch))
+            else: 
+                s[-1] = s[-1] * 10 + int(ch)
         elif ch in OPS: 
             s.append(OPS[ch])
         elif ch == ')':
-            b, op, a = s.pop(), s.pop(), s.pop() 
+            try:
+                b, op, a = s.pop(), s.pop(), s.pop()
+            except IndexError:
+                raise InvalidExpression() 
             s.append(op(a, b))
+    if len(s) != 1:
+        raise InvalidExpression()
     return s.pop()
         
 
@@ -50,10 +62,27 @@ if __name__ == '__main__':
         ('(1 - (1 - 1))', 1),
         ('((1 - 1) - 1)', -1),
         ('(1 - (1 - (1 - 1)))', 0),
-        ('((1 + 2) - (3 + 4))', -4)
+        ('((1 + 2) - (3 + 4))', -4),
+        ('(12 + 3)', 15),
+        ('((12 + 3) + 12)', 27),
     )
     for expr, n in cases:
         res = calculate(expr)
         assert res == n, f'expected f("{expr}") to be {n}, got {res}'
+    
+    invalid = (
+        '(1 + 2',
+        '(1 +',
+        '(1 + 2 + 3)',
+    )
+
+    for expr in invalid: 
+        try: 
+            calculate(expr)
+        except InvalidExpression:
+            continue 
+        except Exception:
+            pass
+        raise AssertionError(f'expected {expr} to be detected as invalid')
     
     print('Tests passed')
