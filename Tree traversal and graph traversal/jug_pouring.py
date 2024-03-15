@@ -21,7 +21,7 @@ def solve(left, right, goal):
     q = deque()
     visited = set()
     q.append(((0, 0), []))
-    while q: 
+    while q:
         (a, b), ops = q.popleft()
         if a == goal or b == goal: 
             return ops
