@@ -1,6 +1,6 @@
-# https://leetcode.com/problems/two-sum/description/
-
 """
+Problem: LeetCode 1 - Two Sum
+
 Key Idea:
 The key idea to solve this problem efficiently is by using a hash map (dictionary in Python) to keep track of the elements we have traversed so far. For each element in the input list, we calculate the difference between the target and the current element. If this difference exists in the hash map, then we have found the pair that sums to the target, and we return their indices. Otherwise, we add the current element to the hash map and continue with the next element.
 
@@ -11,12 +11,28 @@ Space Complexity:
 The space complexity is O(n), as the hash map can potentially store all elements of the input array 'nums' if they are all unique. In the best case, where the target sum is achieved with the first two elements, the space complexity would be O(1). However, in the worst case, if all elements are distinct, the hash map will store all elements, leading to O(n) space complexity.
 """
 
-class Solution: 
+class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         prevMap = {} # val -> index 
 
         for i, n in enumerate(nums):
             diff = target - n 
-            if diff in prevMap: 
+            if diff in prevMap:
                 return [prevMap[diff], i]
-        prevMap[n] = i 
+            prevMap[n] = i 
+        
+    # two pointer approach 
+    def two_sum_sorted(nums, target):
+        nums.sort()
+        left, right = 0, len(nums) - 1 
+
+        while left < right: 
+            current_sum = nums[left] + nums[right]
+            if current_sum == target: 
+                return [left, right]
+            elif current_sum < target: 
+                left += 1 
+            else: 
+                right -= 1 
+        
+        return []

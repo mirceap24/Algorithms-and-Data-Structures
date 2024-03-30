@@ -1,6 +1,6 @@
-# https://leetcode.com/problems/contains-duplicate/
-
 """
+Problem: LeetCode 217 - Contains Duplicate
+
 Key Idea:
 To check if there are any duplicates in the given list, we can use a hash set (set in Python) to store the unique elements as we traverse the list. For each element, we check if it is already present in the set. If it is, then we have found a duplicate, and we return True. If we traverse the entire list without finding any duplicates, we return False.
 
@@ -11,13 +11,12 @@ Space Complexity:
 The space complexity is O(n), as the hash set can potentially store all elements of the input list if they are all distinct.
 """
 
-
-class Solution:
-    def containsDuplicate(self, nums: List[int]) -> bool:
+class Solution: 
+    def containsDuplicate(self, nums: List[int]) -> bool: 
         hashset = set()
 
-        for n in nums:
-            if n in hashset:
-                return True
+        for n in nums: 
+            if n in hashset: 
+                return True 
             hashset.add(n)
         return False
